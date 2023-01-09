@@ -139,6 +139,34 @@ export const getLostPets = ((async (event) => {
 
     // TODO: Finish implementation here
 
-    return { statusCode: 200 }
+    // Get all id of pets in the DB
+    const result = db.exec("SELECT * FROM pets");
+
+    let res = serialize(result);
+
+    // Array of all pets ids
+    let ids = res.map(a => a.id);
+
+
+
+    // Get only owner pets ids
+    const owner_pets = db.prepare("SELECT id FROM owners_pets");
+    let idCol = serialize(owner_pets);
+    let pet_ids = idCol.map(a => a.id);
+
+    let final_res: any[] = [];
+
+    for (var i = 0; i < ids.length; i++) {
+        if(!idCol.includes(i)) {
+            let row = {};
+            row[0] = i;
+
+            row[1] = ids[i];
+
+            final_res.push(row);
+        }
+    }
+
+    return { statusCode: 200, body: JSON.stringify(final_res) }
 }))
 
