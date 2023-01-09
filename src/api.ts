@@ -89,7 +89,7 @@ export const getPetById = ((async (event) => {
 
     // Bind values to the parameters and fetch the results of the query
     let result = stmt.getAsObject({':id' : petId});
-    stmt.free();
+    
 
     return { statusCode: 200, body: JSON.stringify(result) }
 }))
