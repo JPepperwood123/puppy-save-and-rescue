@@ -161,7 +161,7 @@ export const getLostPets = ((async (event) => {
             let row = {};
             row[0] = i;
 
-            row[1] = ids[i];
+            row[1] = ids[i][1];
 
             final_res.push(row);
         }
